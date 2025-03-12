@@ -13,8 +13,10 @@ enum SquareState {
 class GameBoard {
 public:
     bool end = false;
+    SquareState winner = FREE;
     std::string toString();
     bool isSpaceFree(int space);
+    bool checkGameEnd();
     void makeMove(int space, SquareState state);
     SquareState* getBoardState() { return boardState; };
 private:
