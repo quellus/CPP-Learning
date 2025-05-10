@@ -1,14 +1,31 @@
 #include <crow.h>
 #include <iostream>
+#include <string>
 
-int main() {
-  crow::SimpleApp app; //define your crow application
+#include "Data.h"
 
-  //define your endpoint at the root directory
-  CROW_ROUTE(app, "/")([](){
-      return "Hello world";
-  });
+const int DEFAULT_PORT = 18080;
 
-  //set the port, set the app to run on multiple threads, and run the app
-  app.port(18080).multithreaded().run();
+std::string testFunc() {
+    std::cout << "Hello, World!" << std::endl;
+    return "Test func, success!";
 }
+
+int main(int argc, char* argv[]) {
+    crow::SimpleApp app;
+    static Data data;
+
+    CROW_ROUTE(app, "/")([](){
+        return "Hello World";
+    });
+
+    CROW_ROUTE(app, "/callback")(testFunc);
+
+    CROW_ROUTE(app, "/controller")([](){
+        return data.HelloWorld();
+    });
+
+    app.port(DEFAULT_PORT).multithreaded().run();
+}
+
+
