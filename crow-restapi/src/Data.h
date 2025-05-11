@@ -4,6 +4,11 @@
 
 class Data {
 public:
+	static Data& getStaticObject() {
+		static Data data;
+		return data;
+	}
+
 	std::vector<int> getInputs() {
 		return inputs;
 	}
@@ -25,3 +30,4 @@ private:
 	std::vector<int> inputs = {};
 	int calls = 0;
 };
+
