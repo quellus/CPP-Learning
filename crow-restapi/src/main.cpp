@@ -14,25 +14,20 @@ std::string testFunc() {
 int main(int argc, char* argv[]) {
     crow::SimpleApp app;
 
-    CROW_ROUTE(app, "/")([](){
+    CROW_ROUTE(app, "/").methods("GET"_method)([](){
         return "Hello World";
     });
 
-    CROW_ROUTE(app, "/callback")(testFunc);
+    CROW_ROUTE(app, "/callback").methods("GET"_method)(testFunc);
 
-    CROW_ROUTE(app, "/controller")([](){
-        static Data& data = Data::getStaticObject();
-        return data.HelloWorld();
-    });
-
-    CROW_ROUTE(app, "/add_input/<int>")([](int num){
+    CROW_ROUTE(app, "/add_input/<int>").methods("POST"_method)([](int num){
         static Data& data = Data::getStaticObject();
         data.input(num);
         std::cout << "Calls count is " << data.getCalls() << std::endl;
         return 200;
     });
 
-    CROW_ROUTE(app, "/get_inputs")([](){
+    CROW_ROUTE(app, "/get_inputs").methods("GET"_method)([](){
         static Data& data = Data::getStaticObject();
         std::vector<int> inputs = data.getInputs();
         std::vector<crow::json::wvalue> jsonVector = {};
@@ -43,7 +38,7 @@ int main(int argc, char* argv[]) {
         return final;
     });
 
-    CROW_ROUTE(app, "/get_calls")([]() {
+    CROW_ROUTE(app, "/get_calls").methods("GET"_method)([]() {
         static Data& data = Data::getStaticObject();
         crow::response res;
         res.code = 200;
