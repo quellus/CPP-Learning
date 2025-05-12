@@ -26,21 +26,7 @@ CPMAddPackage(Crow
   "CROW_ENABLE_SSL On"
 )
 
-include(CTest)
-enable_testing()
-
-CPMAddPackage(Catch2
-  VERSION 3.7.0
-  GITHUB_REPOSITORY catchorg/Catch2
-  OPTIONS
-  "CATCH_INSTALL_DOCS Off"
-  "CATCH_INSTALL_EXTRAS Off"
-  "CATCH_ENABLE_REPRODUCIBLE_BUILD Off"
-)
-
-add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME}
-        PRIVATE
-        Crow::Crow
-)
+file(GLOB SOURCES "src/*.cpp")
+add_executable(${PROJECT_NAME} ${SOURCES})
+target_link_libraries(${PROJECT_NAME} PRIVATE Crow::Crow)
 
